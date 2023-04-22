@@ -11,6 +11,7 @@ using System.Web;
 using System.Windows.Forms;
 using System.Globalization;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace curvva
 {
@@ -117,7 +118,7 @@ namespace curvva
                         }
                         if (req == 5)
                         {
-                            string newValue = ConfigurationManager.AppSettings["game"];
+                            string newValue = ConfigurationManager.AppSettings["game1"];
                             Process.Start(newValue);
                         }
                         if (req == 6)
@@ -221,11 +222,11 @@ namespace curvva
         private void Button1_Click(object sender, EventArgs e)
         {
             // Получаем текущее значение переменной из app.config
-            string currentValue = ConfigurationManager.AppSettings["game"];
+            string currentValue = ConfigurationManager.AppSettings["game1"];
 
             // Изменяем значение переменной на "new value"
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            config.AppSettings.Settings["game"].Value = textBox1.Text;
+            config.AppSettings.Settings["game1"].Value = textBox1.Text;
             config.Save(ConfigurationSaveMode.Modified);
 
             // После сохранения изменений, обновляем значения в ConfigurationManager
@@ -258,53 +259,76 @@ namespace curvva
             notifyIcon1.Visible = false;
             WindowState = FormWindowState.Normal;
         }
-        private Button myButton;
-        private TextBox myTextBox;
+        int counter = 1;
+        private List<Button> buttons = new List<Button>();
+        private List<TextBox> textBoxes = new List<TextBox>();
 
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void addButton_Click(object sender, EventArgs e)
         {
-            // Создайте новую кнопку и текстовое поле
-            myButton = new Button();
-            myTextBox = new TextBox();
+            TextBox textBox = new TextBox();
+            textBox.Text = textBox1.Text;
+            textBox.Size = textBox1.Size;
+            textBox.Location = new Point(14, textBox1.Location.Y + counter * 50  );
 
-            // Настройте свойства созданных элементов
-            myButton.Text = "Новая кнопка";
-            myButton.Size = button1.Size;
-            myButton.Location = new Point(67, 140);
 
-            myTextBox.Size = textBox1.Size;
-            myTextBox.Location = new Point(21, 120);
+            Button button = new Button();
+            button.Text = button1.Text;
+            button.Size = button1.Size;
+            button.Location = new Point(14, button1.Location.Y + counter * 50  );
 
-            removeButton.Visible = true;
-            panelContainer.Controls.Add(myButton);
-            panelContainer.Controls.Add(myTextBox);
-            myButton.Click += new EventHandler(myButton_Click);
 
-        }
+            buttons.Add(button);
+            textBoxes.Add(textBox);
 
-        private void removeButton_Click(object sender, EventArgs e)
-        {
-            if (myButton != null)
+            counter++;
+
+            panelContainer.Controls.Add(button);
+            panelContainer.Controls.Add(textBox);
+
+            if (counter >= 5)
             {
-                panelContainer.Controls.Remove(myButton);
-                myButton.Dispose();
-                myButton = null;
+                buttonAdd.Visible = false;
+            }
+            else
+            {
+                buttonAdd.Visible = true;
+            }
+            button.Click += new EventHandler(button_Click);
+        }
+        private void button_Click(object sender, EventArgs e)
+        {
+            // Получаем кнопку, на которую нажали
+            Button button = (Button)sender;
+
+            // Получаем индекс кнопки в списке
+            int index = buttons.IndexOf(button);
+
+            // Получаем соответствующий текстбокс
+            TextBox textBox = textBoxes[index];
+            string game = ConfigurationManager.ConnectionStrings[];
+            config.AppSettings.Settings["start_up"].Value = "0";
+        }
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            if (buttons.Count > 0) // если есть хотя бы одна кнопка
+            {
+                Button buttonToRemove = buttons[buttons.Count - 1]; // получаем последнюю кнопку из списка
+                TextBox textBoxToRemove = textBoxes[textBoxes.Count - 1]; // получаем последний текстбокс из списка
+
+                panelContainer.Controls.Remove(buttonToRemove); // удаляем кнопку из контейнера
+                panelContainer.Controls.Remove(textBoxToRemove); // удаляем текстбокс из контейнера
+
+                buttons.Remove(buttonToRemove); // удаляем кнопку из списка
+                textBoxes.Remove(textBoxToRemove); // удаляем текстбокс из списка
+
+                counter--; // уменьшаем счетчик
             }
 
-            if (myTextBox != null)
+            if (counter < 5)
             {
-                panelContainer.Controls.Remove(myTextBox);
-                myTextBox.Dispose();
-                myTextBox = null;
+                buttonAdd.Visible = true; // делаем кнопку добавления видимой, если еще не достигнут лимит
             }
-            removeButton.Visible = false;
         }
-
-        private void myButton_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Кнопка была нажата!");
-        }
-
     }
 }
 
