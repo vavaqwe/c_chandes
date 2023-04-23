@@ -154,6 +154,23 @@ namespace curvva
                             // устанавливаем громкость 
                             defaultPlaybackDevice.AudioEndpointVolume.MasterVolumeLevelScalar = volume;
                         }
+                        if (req == 9) {
+                            string newValue = ConfigurationManager.AppSettings["game2"];
+                            Process.Start(newValue);
+                        }
+                        if (req == 10) {
+                            string newValue = ConfigurationManager.AppSettings["game3"];
+                            Process.Start(newValue);
+                        }
+                        if (req == 11) {
+                            string newValue = ConfigurationManager.AppSettings["game4"];
+                            Process.Start(newValue);
+                        }
+                        if (req == 12) {
+                            string newValue = ConfigurationManager.AppSettings["game5"];
+                            Process.Start(newValue);
+                        }
+
                         client.Close();
                     }
                     catch (Exception ex)
@@ -197,6 +214,7 @@ namespace curvva
             var code = new QRCoder.QRCode(MyData);
             pictureBox1.Image = code.GetGraphic(50);
             Server();
+
         }
 
         private void BtnTogglePanel_Click(object sender, EventArgs e)
@@ -219,19 +237,6 @@ namespace curvva
             }
         }
 
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            // Получаем текущее значение переменной из app.config
-            string currentValue = ConfigurationManager.AppSettings["game1"];
-
-            // Изменяем значение переменной на "new value"
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            config.AppSettings.Settings["game1"].Value = textBox1.Text;
-            config.Save(ConfigurationSaveMode.Modified);
-
-            // После сохранения изменений, обновляем значения в ConfigurationManager
-            ConfigurationManager.RefreshSection("appSettings");
-        }
 
         private void Form1_Resize(object sender, EventArgs e)
         {
@@ -259,75 +264,74 @@ namespace curvva
             notifyIcon1.Visible = false;
             WindowState = FormWindowState.Normal;
         }
-        int counter = 1;
-        private List<Button> buttons = new List<Button>();
-        private List<TextBox> textBoxes = new List<TextBox>();
 
-        private void addButton_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
-            TextBox textBox = new TextBox();
-            textBox.Text = textBox1.Text;
-            textBox.Size = textBox1.Size;
-            textBox.Location = new Point(14, textBox1.Location.Y + counter * 50  );
+            // Получаем текущее значение переменной из app.config
+            string currentValue = ConfigurationManager.AppSettings["game1"];
 
+            // Изменяем значение переменной на "new value"
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["game1"].Value = textBox1.Text;
+            config.Save(ConfigurationSaveMode.Modified);
 
-            Button button = new Button();
-            button.Text = button1.Text;
-            button.Size = button1.Size;
-            button.Location = new Point(14, button1.Location.Y + counter * 50  );
-
-
-            buttons.Add(button);
-            textBoxes.Add(textBox);
-
-            counter++;
-
-            panelContainer.Controls.Add(button);
-            panelContainer.Controls.Add(textBox);
-
-            if (counter >= 5)
-            {
-                buttonAdd.Visible = false;
-            }
-            else
-            {
-                buttonAdd.Visible = true;
-            }
-            button.Click += new EventHandler(button_Click);
+            // После сохранения изменений, обновляем значения в ConfigurationManager
+            ConfigurationManager.RefreshSection("appSettings");
         }
-        private void button_Click(object sender, EventArgs e)
+        private void Button4_Click(object sender, EventArgs e)
         {
-            // Получаем кнопку, на которую нажали
-            Button button = (Button)sender;
+            // Получаем текущее значение переменной из app.config
+            string currentValue = ConfigurationManager.AppSettings["game2"];
 
-            // Получаем индекс кнопки в списке
-            int index = buttons.IndexOf(button);
+            // Изменяем значение переменной на "new value"
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["game2"].Value = textBox1.Text;
+            config.Save(ConfigurationSaveMode.Modified);
 
-            // Получаем соответствующий текстбокс
-            TextBox textBox = textBoxes[index];
-            string game = ConfigurationManager.ConnectionStrings[];
-            config.AppSettings.Settings["start_up"].Value = "0";
+            // После сохранения изменений, обновляем значения в ConfigurationManager
+            ConfigurationManager.RefreshSection("appSettings");
         }
-        private void deleteButton_Click(object sender, EventArgs e)
+
+        private void Button3_Click(object sender, EventArgs e)
         {
-            if (buttons.Count > 0) // если есть хотя бы одна кнопка
-            {
-                Button buttonToRemove = buttons[buttons.Count - 1]; // получаем последнюю кнопку из списка
-                TextBox textBoxToRemove = textBoxes[textBoxes.Count - 1]; // получаем последний текстбокс из списка
+            // Получаем текущее значение переменной из app.config
+            string currentValue = ConfigurationManager.AppSettings["game3"];
 
-                panelContainer.Controls.Remove(buttonToRemove); // удаляем кнопку из контейнера
-                panelContainer.Controls.Remove(textBoxToRemove); // удаляем текстбокс из контейнера
+            // Изменяем значение переменной на "new value"
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["game3"].Value = textBox1.Text;
+            config.Save(ConfigurationSaveMode.Modified);
 
-                buttons.Remove(buttonToRemove); // удаляем кнопку из списка
-                textBoxes.Remove(textBoxToRemove); // удаляем текстбокс из списка
+            // После сохранения изменений, обновляем значения в ConfigurationManager
+            ConfigurationManager.RefreshSection("appSettings");
+        }
 
-                counter--; // уменьшаем счетчик
-            }
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            // Получаем текущее значение переменной из app.config
+            string currentValue = ConfigurationManager.AppSettings["game4"];
 
-            if (counter < 5)
-            {
-                buttonAdd.Visible = true; // делаем кнопку добавления видимой, если еще не достигнут лимит
-            }
+            // Изменяем значение переменной на "new value"
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["game4"].Value = textBox1.Text;
+            config.Save(ConfigurationSaveMode.Modified);
+
+            // После сохранения изменений, обновляем значения в ConfigurationManager
+            ConfigurationManager.RefreshSection("appSettings");
+        }
+
+        private void Button5_Click(object sender, EventArgs e)
+        {
+            // Получаем текущее значение переменной из app.config
+            string currentValue = ConfigurationManager.AppSettings["game5"];
+
+            // Изменяем значение переменной на "new value"
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["game5"].Value = textBox1.Text;
+            config.Save(ConfigurationSaveMode.Modified);
+
+            // После сохранения изменений, обновляем значения в ConfigurationManager
+            ConfigurationManager.RefreshSection("appSettings");
         }
     }
 }
