@@ -1,6 +1,6 @@
 # curvva
 
-[Приложение для компьютера](https://github.com/vavaqwe/c_cange)
+[Приложение для телефона](https://github.com/vavaqwe/c_cange)
 ## Основные функции
 
 - Создание сервера на компьютере.
